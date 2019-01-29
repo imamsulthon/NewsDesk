@@ -28,6 +28,7 @@ import retrofit2.Response;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String API_KEY = Constants.API_KEY;
+
     private ArrayList<Source> sourceArrayList = new ArrayList<>();
 
     @BindView(R.id.recyclerview)
@@ -35,7 +36,6 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
-    private GridLayoutManager layoutManager;
     private NewsSourceAdapter adapter;
 
     @Override
@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        layoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new NewsSourceAdapter(getApplicationContext(), sourceArrayList);
         recyclerView.setAdapter(new ScaleInAnimationAdapter(adapter));

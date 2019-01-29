@@ -4,6 +4,7 @@
 
     <string name="search_hint">Search News</string>
 
+    <string name="source">The New York Times</string>
     <string name="title">A Very Long Title of News Article</string>
     <string name="author">Imam Sulthon</string>
     <string name="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor

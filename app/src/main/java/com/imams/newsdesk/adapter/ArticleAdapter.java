@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.imams.newsdesk.R;
 import com.imams.newsdesk.activity.WebActivity;
-import com.imams.newsdesk.activity.WebViewActivity;
 import com.imams.newsdesk.model.Article;
 import com.imams.newsdesk.support.Utility;
 import com.squareup.picasso.Picasso;

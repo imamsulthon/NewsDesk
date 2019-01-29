@@ -18,7 +18,7 @@ public class WebActivity extends AppCompatActivity {
 
     public static final String KEY = "article";
 
-    @BindView(R.id.webView_article)
+    @BindView(R.id.web_view_article)
     WebView webView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;

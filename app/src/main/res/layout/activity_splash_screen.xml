@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryLight"
+    tools:context=".activity.SplashScreenActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/margin_xxxlarge"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/splash_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_apps_logo"/>
+
+        <TextView
+            android:id="@+id/splash_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="34sp"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

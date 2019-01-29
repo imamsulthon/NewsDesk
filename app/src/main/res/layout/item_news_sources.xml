@@ -22,7 +22,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_margin="@dimen/margin_tiny"
-                android:src="@drawable/ic_news_green"/>
+                android:src="@drawable/ic_news_red"/>
 
             <TextView
                 android:id="@+id/tv_source_name"

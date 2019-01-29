@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.HomeActivity">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_gravity="center_horizontal|center_vertical">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryLight">
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_medium"
-                android:layout_gravity="center_horizontal|center_vertical|center">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/iv_apps_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/ic_news_green"/>
 
                 <TextView
@@ -36,7 +34,7 @@
                     android:layout_toRightOf="@id/iv_apps_icon"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_centerInParent="true"
-                    android:text="@string/app_name"
+                    android:text="News Source"
                     android:textSize="@dimen/text_size_large"
                     android:textColor="@color/white"
                     android:textStyle="bold"/>
@@ -45,27 +43,26 @@
 
         </android.support.v7.widget.Toolbar>
 
+    </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:theme="@style/AppTheme"
+            android:visibility="visible"/>
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:theme="@style/AppTheme"
-                style="@style/AppTheme"
-                android:visibility="gone"/>
+    </FrameLayout>
 
-        </FrameLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
