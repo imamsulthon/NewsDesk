@@ -94,13 +94,6 @@ public class SearchActivity extends AppCompatActivity {
             return false;
         });
 
-        recyclerView.addOnScrollListener(new CustomRecyclerViewListener() {
-            @Override
-            public void onLoadMore() {
-                loadMoreHeadlineNews(query, pageIndex);
-            }
-        });
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -109,6 +102,13 @@ public class SearchActivity extends AppCompatActivity {
                 } else {
                     swipeRefreshLayout.setRefreshing(false);
                 }
+            }
+        });
+
+        recyclerView.addOnScrollListener(new CustomRecyclerViewListener() {
+            @Override
+            public void onLoadMore() {
+                loadMoreHeadlineNews(query, pageIndex);
             }
         });
     }

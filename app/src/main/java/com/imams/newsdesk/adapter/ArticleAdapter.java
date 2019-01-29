@@ -43,7 +43,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Article article = arrayList.get(position);
         holder.tvTitle.setText(article.getTitle());
-        holder.tvAuthor.setText(article.getAuthor());
+        if (article.getAuthor() != null || !article.getAuthor().equals("")) {
+            holder.tvAuthor.setText(article.getAuthor());
+        } else {
+            holder.tvAuthor.setText(article.getSource().getName());
+        }
         holder.tvPublishedDate.setText(Utility.formatDate(article.getPublishedAt()));
         if (article.getUrlToImage() != null) {
             holder.ivImageContent.setVisibility(View.VISIBLE);
@@ -55,7 +59,12 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         } else {
             holder.ivImageContent.setVisibility(View.GONE);
         }
-        holder.tvDescription.setText(article.getDescription());
+        if (article.getDescription() != null || !article.getDescription().equals("")) {
+            holder.tvDescription.setText(article.getDescription());
+        } else {
+            holder.tvDescription.setText(article.getUrl());
+        }
+
         holder.cardView.setOnClickListener(item -> {
             Intent intent = new Intent(context, WebviewActivity.class);
             intent.putExtra(WebviewActivity.KEY, article);
