@@ -12,6 +12,8 @@ import android.transition.Slide;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SourcesNewsActivity extends AppCompatActivity {
+public class NewsSourcesActivity extends AppCompatActivity {
 
     private static final String API_KEY = Constants.API_KEY;
     public static final String KEY = "source";
@@ -47,6 +49,8 @@ public class SourcesNewsActivity extends AppCompatActivity {
     TextView tvToolbarTitle;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -55,7 +59,7 @@ public class SourcesNewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sources_news);
+        setContentView(R.layout.activity_news_sources);
         ButterKnife.bind(this);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -74,37 +78,60 @@ public class SourcesNewsActivity extends AppCompatActivity {
 
         getHeadlineNews(source.getId());
 
-        swipeRefreshLayout.setOnRefreshListener(() -> getHeadlineNews(source.getId()));
+        swipeRefreshLayout.setOnRefreshListener(() -> refreshHeadlineNews(source.getId()));
 
     }
 
     private void getHeadlineNews(String id) {
-        swipeRefreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
         RetrofitApi retrofitApi = ApiClient.getCacheEnabledRetrofit(getApplicationContext()).create(RetrofitApi.class);
         Call<ArticleResponse> call = retrofitApi.getTopHeadlines(id, API_KEY);
         call.enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+                progressBar.setVisibility(View.GONE);
                 ArticleResponse articleResponse = response.body();
                 articleArrayList.clear();
                 if (articleResponse != null) {
                     articleArrayList.addAll(articleResponse.getArticles());
                     adapter.notifyDataSetChanged();
                 }
-                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<ArticleResponse> call, Throwable t) {
-                Toast.makeText(SourcesNewsActivity.this, "Error!",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(NewsSourcesActivity.this, "Error!", Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void refreshHeadlineNews(String id) {
+        swipeRefreshLayout.setRefreshing(true);
+        RetrofitApi retrofitApi = ApiClient.getCacheEnabledRetrofit(getApplicationContext()).create(RetrofitApi.class);
+        Call<ArticleResponse> call = retrofitApi.getTopHeadlines(id, API_KEY);
+        call.enqueue(new Callback<ArticleResponse>() {
+            @Override
+            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+                swipeRefreshLayout.setRefreshing(false);
+                ArticleResponse articleResponse = response.body();
+                articleArrayList.clear();
+                if (articleResponse != null) {
+                    articleArrayList.addAll(articleResponse.getArticles());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArticleResponse> call, Throwable t) {
+                Toast.makeText(NewsSourcesActivity.this, "Error!", Toast.LENGTH_LONG).show();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
     private void toSearchActivity() {
-        Intent intent = new Intent(SourcesNewsActivity.this, SearchActivity.class);
+        Intent intent = new Intent(NewsSourcesActivity.this, SearchActivity.class);
         intent.putExtra(SearchActivity.KEY, source);
         startActivity(intent);
     }

@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.imams.newsdesk.R;
@@ -53,10 +55,14 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.layout_empty_results)
+    RelativeLayout emptyResultLayout;
 
     private ArticleAdapter adapter;
 
-    int pageIndex, totalPages;
+    int pageIndex = 2, totalPages = 1;
     private String query;
 
     @Override
@@ -84,7 +90,6 @@ public class SearchActivity extends AppCompatActivity {
                 methodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 query = etSearch.getText().toString().trim();
                 getHeadlineNews(query);
-                pageIndex = 2;
             }
             return false;
         });
@@ -92,14 +97,14 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new CustomRecyclerViewListener() {
             @Override
             public void onLoadMore() {
-                loadMoreResults(query, pageIndex);
+                loadMoreHeadlineNews(query, pageIndex);
             }
         });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (!query.isEmpty() || !query.equals("")) {
+                if (query != null && !query.equals("")) {
                     getHeadlineNews(query);
                 } else {
                     swipeRefreshLayout.setRefreshing(false);
@@ -109,6 +114,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void getHeadlineNews(String query) {
+        emptyResultLayout.setVisibility(View.GONE);
         recyclerView.setVisibility(View.INVISIBLE);
         swipeRefreshLayout.setRefreshing(true);
         RetrofitApi retrofitApi = ApiClient.getCacheEnabledRetrofit(getApplicationContext()).create(RetrofitApi.class);
@@ -119,20 +125,20 @@ public class SearchActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
                 ArticleResponse articleResponse = response.body();
                 articleArrayList.clear();
-                if (articleResponse != null) {
+                if (articleResponse != null && articleResponse.getTotalResults() > 0) {
                     articleArrayList.addAll(articleResponse.getArticles());
                     adapter.notifyDataSetChanged();
 
                     // getting total results and number of pages posibility
                     int totalResults = articleResponse.getTotalResults();
-                    int pages = totalResults/30;
+                    int pages = totalResults/20;
                     totalPages = pages;
-                    if ((totalResults % 30) > 0) {
+                    if ((totalResults % 20) > 0) {
                         totalPages = totalPages + 1;
                     }
                     recyclerView.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(SearchActivity.this, "null!", Toast.LENGTH_LONG).show();
+                    emptyResultLayout.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -144,32 +150,30 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void loadMoreResults(String query, int page) {
-        if (pageIndex <= totalPages) {
-            swipeRefreshLayout.setRefreshing(true);
-            new Handler().postDelayed(() -> {
-                RetrofitApi retrofitApi = ApiClient.getCacheEnabledRetrofit(getApplicationContext()).create(RetrofitApi.class);
-                Call<ArticleResponse> call = retrofitApi.getArticles(source.getId(), query, page, API_KEY);
-                call.enqueue(new Callback<ArticleResponse>() {
-                    @Override
-                    public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        ArticleResponse articleResponse = response.body();
-                        if (articleResponse != null) {
-                            articleArrayList.addAll(articleResponse.getArticles());
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(SearchActivity.this, "null!", Toast.LENGTH_LONG).show();
-                        }
+    private void loadMoreHeadlineNews(String query, int page) {
+        progressBar.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(() -> {
+            RetrofitApi retrofitApi = ApiClient.getCacheEnabledRetrofit(getApplicationContext()).create(RetrofitApi.class);
+            Call<ArticleResponse> call = retrofitApi.getArticles(source.getId(), query, page, API_KEY);
+            call.enqueue(new Callback<ArticleResponse>() {
+                @Override
+                public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+                    progressBar.setVisibility(View.GONE);
+                    ArticleResponse articleResponse = response.body();
+                    if (articleResponse != null) {
+                        articleArrayList.addAll(articleResponse.getArticles());
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(SearchActivity.this, "null!", Toast.LENGTH_LONG).show();
                     }
-                    @Override
-                    public void onFailure(Call<ArticleResponse> call, Throwable t) {
-                        Toast.makeText(SearchActivity.this, "Error!", Toast.LENGTH_LONG).show();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }, 1500);
-        }
+                }
+                @Override
+                public void onFailure(Call<ArticleResponse> call, Throwable t) {
+                    Toast.makeText(SearchActivity.this, "Error!", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        }, 1500);
         pageIndex++;
     }
 
@@ -199,9 +203,11 @@ public class SearchActivity extends AppCompatActivity {
                 etSearch.setText("");
                 etSearch.requestFocus();
                 pageIndex = 2;
+                totalPages = 1;
                 InputMethodManager methodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 methodManager.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT);
                 recyclerView.setVisibility(View.GONE);
+                emptyResultLayout.setVisibility(View.GONE);
                 break;
             default:
                 break;

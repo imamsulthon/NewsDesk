@@ -30,7 +30,7 @@
             android:name=".activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".activity.SourcesNewsActivity"
+            android:name=".activity.NewsSourcesActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.WebviewActivity"

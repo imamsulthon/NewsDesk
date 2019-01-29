@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imams.newsdesk.R;
-import com.imams.newsdesk.activity.SourcesNewsActivity;
+import com.imams.newsdesk.activity.NewsSourcesActivity;
 import com.imams.newsdesk.model.Source;
 
 import java.util.ArrayList;
@@ -42,8 +42,8 @@ public class NewsSourceAdapter extends RecyclerView.Adapter<NewsSourceAdapter.Vi
         Source source = sourceArrayList.get(position);
         holder.tvSourceName.setText(source.getName());
         holder.cardView.setOnClickListener(item -> {
-            Intent intent = new Intent(context, SourcesNewsActivity.class);
-            intent.putExtra(SourcesNewsActivity.KEY, source);
+            Intent intent = new Intent(context, NewsSourcesActivity.class);
+            intent.putExtra(NewsSourcesActivity.KEY, source);
             context.startActivity(intent);
         });
     }
