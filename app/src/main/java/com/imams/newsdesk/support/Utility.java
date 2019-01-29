@@ -12,10 +12,11 @@ public class Utility {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ss");
         try {
             Date date = format.parse(currentDate);
-            format = new SimpleDateFormat("dd-MM-yyyy, h:mm a");
+            format = new SimpleDateFormat("dd MMM yyyy, h:mm a");
+            currentDate = format.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.e("Date Utils: ", "Problem with parsing date format");
+            Log.e("Date: ", "Problem when parsing date format");
         }
         return currentDate;
     }

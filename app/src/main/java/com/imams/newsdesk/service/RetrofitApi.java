@@ -19,4 +19,13 @@ public interface RetrofitApi {
     Call<ArticleResponse> getTopHeadlines(
             @Query("sources") String id,
             @Query("apiKey") String apiKey);
+
+    @GET("everything/")
+    Call<ArticleResponse> getArticles(
+            @Query("sources") String sources,
+            @Query("q") String query,
+            @Query("page") int page,
+            @Query("apiKey") String apiKey);
+
+
 }
