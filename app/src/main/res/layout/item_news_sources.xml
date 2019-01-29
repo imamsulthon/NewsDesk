@@ -8,8 +8,8 @@
         android:id="@+id/card_view"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        app:cardCornerRadius="@dimen/margin_tiny"
-        app:cardElevation="@dimen/margin_tiny"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardElevation="@dimen/margin_small"
         app:cardUseCompatPadding="true">
 
         <RelativeLayout
@@ -31,7 +31,7 @@
                 android:layout_toRightOf="@id/iv_source_logo"
                 android:layout_margin="@dimen/margin_tiny"
                 android:layout_centerInParent="true"
-                android:text="A Very Long Name of News Source"
+                android:text="@string/title"
                 android:maxLines="2"
                 android:textSize="@dimen/text_size_small"/>
 

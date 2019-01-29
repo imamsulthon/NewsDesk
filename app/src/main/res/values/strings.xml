@@ -2,11 +2,14 @@
 
     <string name="app_name">NewsDesk</string>
 
+    <string name="conten_description">news image</string>
     <string name="search_hint">Search News</string>
 
+    <string name="news_source">News Source</string>
     <string name="source">The New York Times</string>
     <string name="title">A Very Long Title of News Article</string>
     <string name="author">Imam Sulthon</string>
+    <string name="date">29 Jan 2019, 5:50 am</string>
     <string name="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
         ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit

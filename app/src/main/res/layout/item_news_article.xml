@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:layout_gravity="end"
-                android:text="Jan 28th 2019"
+                android:text="@string/date"
                 android:textAlignment="textEnd"
                 android:textStyle="italic"
                 android:textSize="@dimen/text_size_small"
@@ -66,6 +66,7 @@
             android:layout_marginBottom="@dimen/margin_small"
             android:scaleType="centerCrop"
             android:visibility="visible"
+            android:contentDescription="@string/conten_description"
             tools:src="@drawable/news_content" />
 
         <TextView
