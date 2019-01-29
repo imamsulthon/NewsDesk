@@ -14,7 +14,7 @@ import com.imams.newsdesk.model.Article;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WebActivity extends AppCompatActivity {
+public class WebviewActivity extends AppCompatActivity {
 
     public static final String KEY = "article";
 
@@ -29,7 +29,7 @@ public class WebActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web);
+        setContentView(R.layout.activity_webview);
         ButterKnife.bind(this);
 
         article = getIntent().getParcelableExtra(KEY);

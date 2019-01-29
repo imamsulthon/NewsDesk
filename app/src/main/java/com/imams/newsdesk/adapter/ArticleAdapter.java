@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imams.newsdesk.R;
-import com.imams.newsdesk.activity.WebActivity;
+import com.imams.newsdesk.activity.WebviewActivity;
 import com.imams.newsdesk.model.Article;
 import com.imams.newsdesk.support.Utility;
 import com.squareup.picasso.Picasso;
@@ -35,7 +35,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.news_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_news_article, parent, false);
         return new ViewHolder(view);
     }
 
@@ -57,8 +57,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         }
         holder.tvDescription.setText(article.getDescription());
         holder.cardView.setOnClickListener(item -> {
-            Intent intent = new Intent(context, WebActivity.class);
-            intent.putExtra(WebActivity.KEY, article);
+            Intent intent = new Intent(context, WebviewActivity.class);
+            intent.putExtra(WebviewActivity.KEY, article);
             context.startActivity(intent);
         });
 
